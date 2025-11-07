@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #ff5252
+}
+
+.css-1y8627i-MuiBadge-badge {
+    background-color: var(--color-primary) !important;
+}

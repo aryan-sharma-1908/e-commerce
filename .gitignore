@@ -1,0 +1,16 @@
+client/.env
+client/node_modules
+server/.env
+server/node_modules
+admin/admin/node_modules
+admin/admin/.env
+# prevent heavy or local files
+node_modules/
+dist/
+build/
+.env
+*.exe
+*.zip
+*.mp4
+*.avi
+*.log
