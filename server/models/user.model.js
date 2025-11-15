@@ -36,12 +36,18 @@ const userSchema = mongoose.Schema({
     }
 }, {timestamps: true})
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', async function(next) {
     const user = this;
     if(!user.isModified('password')) return next();
-    const hashedPassword = bcrypt.hash(user.password,10);
-    user.password = hashedPassword;
-    next();
+    
+    try {
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        user.password = hashedPassword;
+        next();
+    } catch(error) {
+        console.error("Error hashing password:", error);
+        next(error);
+    }
 })
 
 const User = mongoose.model('User', userSchema);

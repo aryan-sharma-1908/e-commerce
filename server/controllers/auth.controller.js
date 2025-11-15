@@ -50,6 +50,8 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
+  console.log("Login attempt:", { email, password });
+
   if (!email || !password) {
     return res.status(400).json({
       success: false,
@@ -60,6 +62,8 @@ exports.loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
+    console.log("User found:", user ? `Yes - ${user.email}` : "No");
+
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -68,6 +72,10 @@ exports.loginUser = async (req, res) => {
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    console.log("Password comparison result:", isPasswordValid);
+    console.log("Provided password:", password);
+    console.log("Stored hashed password:", user.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -81,14 +89,13 @@ exports.loginUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        
       },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
 
     res.cookie('token', token, {
-        httpOnly: true,
+        httpOnly: process.env.NODE_ENV === 'development' ? false : true,
         sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
         secure: process.env.NODE_ENV === 'development' ? false : true,
         maxAge: 24 * 60 * 60 * 1000
@@ -97,9 +104,10 @@ exports.loginUser = async (req, res) => {
     res.status(200).json({
         success: true,
         message: "Login successful",
+        token: token
     })
   } catch (error) {
-    console.error("error: ", error);
+    console.error("Login error: ", error);
     res.status(500).json({
         success: false,
         message: "Failed to login due to internal error"
