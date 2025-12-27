@@ -50,7 +50,7 @@ const Navigation = () => {
                 <div className="submenu absolute top-[120%] left-[0%] min-w-[200px] bg-white shadow-md transition-all z-50">
                   <ul>
                     <li className="list-none w-full relative">
-                      <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none !capitalize relative ">
+                      <div className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none !capitalize relative ">
                         <Link className="link transition cursor-pointer !font-[400]">
                           Men
                         </Link>
@@ -93,7 +93,7 @@ const Navigation = () => {
                             </li>
                           </ul>
                         </div>
-                      </Button>
+                      </div>
                     </li>
                     <li className="list-none w-full! justify-start !text-left">
                       <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none !capitalize">
